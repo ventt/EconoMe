@@ -1,0 +1,4 @@
+package common
+
+object ArgsParser {
+}
