@@ -1,6 +1,7 @@
 package category.repository
 
 import category.models.Category
+import common.UniqueIdGenerator
 import common.interfaces.Repository
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.builtins.ListSerializer
@@ -38,22 +39,38 @@ class CategoryRepository : Repository<Category> {
         }
     }
 
-    override fun read(identifier: String): Category? {
-        return categories.find { it.name == identifier }
+    override fun read(id: String): Category? {
+        return categories.find { it.id == id }
     }
 
-    override fun delete(identifier: String): Boolean {
-        val isRemoved = categories.removeIf { it.name == identifier }
+    override fun delete(id: String): Boolean {
+        val isRemoved = categories.removeIf { it.id == id }
         if (isRemoved) saveToJson()
         return isRemoved
     }
 
+    override fun getAll(): List<Category> {
+        return categories
+    }
+
+    fun deleteByName(name: String): Boolean {
+        val isRemoved = categories.removeIf { (it.name).equals(name, ignoreCase = true) }
+        if (isRemoved) saveToJson()
+        return isRemoved
+    }
+    fun findByName(name: String): Category? {
+        return categories.find { (it.name).equals(name, ignoreCase = true) }
+    }
+
     override fun update(item: Category): Category {
-        return categories.find { it.name == item.name }?.let {
+        return categories.find { it.id == item.id }?.let {
             categories.remove(it)
             categories.add(item)
             saveToJson()
             item
         } ?: throw IllegalArgumentException("Category with name: ${item.name} does not exist")
+    }
+    override fun save() {
+        saveToJson()
     }
 }

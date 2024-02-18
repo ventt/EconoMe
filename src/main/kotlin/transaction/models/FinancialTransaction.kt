@@ -1,12 +1,8 @@
 package transaction.models
 
-import java.time.LocalDate
+import category.models.Category
 
 interface FinancialTransaction {
-    val id: Int
-    val amount: Double
-    val date: LocalDate
-    val description: String
-
+    var category: Category?
     fun type(): String
 }

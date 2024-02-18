@@ -9,7 +9,7 @@ class CreateCategoryCommand(private val categoryRepository: CategoryRepository):
     override fun matches(input: String): Boolean {
         return input.startsWith("create category")
     }
-    override fun validate(input: String): Boolean {
+    private fun validate(input: String): Boolean {
         if (!input.contains("-n") || input.substringAfter("-n").trim().isEmpty()) {
             Printer.printError("Error: Missing or incorrect '-n' flag usage. Correct format: create category -n \"Category Name\"")
             return false
