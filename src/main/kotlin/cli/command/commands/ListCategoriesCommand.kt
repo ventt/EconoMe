@@ -1,4 +1,4 @@
 package cli.command.commands
 
-class CreateIncomeCommand {
+class ListCategoriesCommand {
 }

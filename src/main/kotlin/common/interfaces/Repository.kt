@@ -4,7 +4,10 @@ interface Repository<T> {
     fun saveToJson()
     fun loadFromJson()
     fun create(item: T): T
-    fun read(identifier: String): T?
+    fun read(id: String): T?
+    fun getAll(): List<T>
     fun update(item: T): T
-    fun delete(identifier: String): Boolean
+    fun delete(id: String): Boolean
+
+    fun save()
 }

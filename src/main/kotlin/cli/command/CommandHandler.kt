@@ -8,7 +8,10 @@ class CommandHandler(commands: List<Command>) {
 
     fun handleInput(input: String) {
         if (input == "help") {
-            commands.forEach { println(it.printHelp()) }
+            commands.forEach {
+                Printer.printWarning("=====================================")
+                println(it.printHelp())
+            }
             return
         }
         if (input.startsWith("help")) {
