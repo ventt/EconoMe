@@ -6,12 +6,15 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
 @Serializable
-data class Date(val year: Int, val month: Int, val day: Int, val hour: Int, val minute: Int) {
+data class Date(val year: Int, val month: Int, val day: Int, val hour: Int, val minute: Int): Comparable<Date> {
     override fun toString(): String {
         return "$year-$month-$day $hour:$minute"
     }
-    fun toLocalDateTime(): LocalDateTime {
+    private fun toLocalDateTime(): LocalDateTime {
         return LocalDateTime.of(year, month, day, hour, minute)
+    }
+    override fun compareTo(other: Date): Int {
+        return this.toLocalDateTime().compareTo(other.toLocalDateTime())
     }
 }
 

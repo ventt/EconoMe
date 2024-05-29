@@ -1,10 +1,12 @@
 package cli
 
 import category.service.CategoryService
-import cli.command.ListCommandHandler
+import cli.command.handlers.ListCommandHandler
 import cli.command.commands.listCommands.DeleteExpenseByIndexCommand
+import cli.command.commands.listCommands.DeleteIncomeByIndexCommand
 import cli.command.interfaces.ListCommand
 import common.interfaces.Listable
+import transaction.models.Expense
 
 class CLIListHandler(private val repositoryManager: RepositoryManager, private var type : String) {
     private val categoryService = CategoryService(repositoryManager.getCategoryRepository(), repositoryManager.getExpenseRepository(), repositoryManager.getIncomeRepository())
@@ -23,7 +25,8 @@ class CLIListHandler(private val repositoryManager: RepositoryManager, private v
 
     private var indexedList = mapOf<Int, Listable>()
     private val commands: List<ListCommand> = listOf(
-        DeleteExpenseByIndexCommand(repositoryManager.getExpenseRepository())
+        DeleteExpenseByIndexCommand(repositoryManager.getExpenseRepository()),
+        DeleteIncomeByIndexCommand(repositoryManager.getIncomeRepository())
     )
     private val listCommandHandler = ListCommandHandler(commands)
 
@@ -45,7 +48,9 @@ class CLIListHandler(private val repositoryManager: RepositoryManager, private v
         }
     }
     private fun setExpenseList() {
-        indexedList = listToMap(repositoryManager.getExpenseRepository().getAll())
+        val sortedExpenses = repositoryManager.getExpenseRepository().getAll()
+            .sortedWith(compareByDescending<Expense> { it.date }.thenByDescending { it.amount })
+        indexedList = listToMap(sortedExpenses)
     }
     private fun setIncomeList() {
         indexedList = listToMap(repositoryManager.getIncomeRepository().getAll())

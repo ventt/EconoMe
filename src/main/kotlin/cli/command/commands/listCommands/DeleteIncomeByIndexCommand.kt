@@ -4,15 +4,15 @@ import cli.command.interfaces.ListCommand
 import common.ArgsParser
 import common.Printer
 import common.interfaces.Listable
-import transaction.repository.ExpenseRepository
+import transaction.repository.IncomeRepository
 
-class DeleteExpenseByIndexCommand(private val expenseRepository: ExpenseRepository): ListCommand {
+class DeleteIncomeByIndexCommand(private val incomeRepository: IncomeRepository): ListCommand {
     private var map: Map<Int, Listable> = mapOf()
     override fun setMap(map: Map<Int, Listable>) {
         this.map = map
     }
     override fun matches(input: String): Boolean {
-        return input.startsWith("delete expense")
+        return input.startsWith("delete income")
     }
 
     override fun execute(input: String) {
@@ -24,23 +24,23 @@ class DeleteExpenseByIndexCommand(private val expenseRepository: ExpenseReposito
             Printer.printError("-i (index) argument is missing or not a number.")
             return
         }
-        Printer.printDeletingEntity("Deleting expense transaction with index: $index")
+        Printer.printDeletingEntity("Deleting income transaction with index: $index")
         map[index]?.let {
-            expenseRepository.delete(it.id).let { success ->
+            incomeRepository.delete(it.id).let { success ->
                 if (success) {
-                    Printer.printSuccess("Expense deleted successfully")
+                    Printer.printSuccess("Income deleted successfully")
                 } else {
                     Printer.printWarning("Delete unsuccessful")
                 }
             }
-        } ?: Printer.printWarning("Expense not found")
+        } ?: Printer.printWarning("Income not found")
     }
 
     override fun printHelp(): Unit {
         Printer.printHelp(
-            "delete expense",
-            "Deletes an expense transaction.",
-            "delete expense -i <index>",
+            "delete income",
+            "Deletes an income transaction.",
+            "delete income -i <index>",
             ""
         )
     }

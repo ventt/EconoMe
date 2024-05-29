@@ -21,7 +21,8 @@ data class Expense(
     }
 
     override fun print(): String {
-        return "${Color.EXPENSE.code}Expense${Color.RESET.code}: $amount, $date, $category, $description"
+        val categoryName = category?.name ?: "No category"
+        return "${Color.EXPENSE.code}Expense${Color.RESET.code}: $amount, $date, ${categoryName}, $description"
     }
 }
 

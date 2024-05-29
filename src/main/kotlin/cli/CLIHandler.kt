@@ -1,7 +1,7 @@
 package cli
 
 
-import cli.command.CommandHandler
+import cli.command.handlers.CommandHandler
 import cli.command.commands.*
 import cli.command.interfaces.Command
 
