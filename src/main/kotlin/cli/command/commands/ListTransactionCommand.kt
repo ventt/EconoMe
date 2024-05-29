@@ -15,7 +15,7 @@ class ListTransactionCommand(private val repositoryManager: RepositoryManager) :
         cliListHandler.open()
     }
 
-    override fun printHelp(): Unit {
+    override fun printHelp(){
         Printer.printHelp(
             "list transactions",
             "Lists all transactions.",

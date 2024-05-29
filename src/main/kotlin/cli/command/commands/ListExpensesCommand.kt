@@ -15,7 +15,7 @@ class ListExpensesCommand(private val repositoryManager: RepositoryManager) : Co
         cliListHandler.open()
     }
 
-    override fun printHelp(): Unit {
+    override fun printHelp(){
         Printer.printHelp(
             "list expenses",
             "Lists all expenses.",

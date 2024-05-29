@@ -36,7 +36,7 @@ class DeleteIncomeByIndexCommand(private val incomeRepository: IncomeRepository)
         } ?: Printer.printWarning("Income not found")
     }
 
-    override fun printHelp(): Unit {
+    override fun printHelp(){
         Printer.printHelp(
             "delete income",
             "Deletes an income transaction.",

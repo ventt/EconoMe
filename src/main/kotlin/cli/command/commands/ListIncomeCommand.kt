@@ -15,7 +15,7 @@ class ListIncomeCommand(private val repositoryManager: RepositoryManager) : Comm
         cliListHandler.open()
     }
 
-    override fun printHelp(): Unit {
+    override fun printHelp(){
         Printer.printHelp(
             "list incomes",
             "Lists all incomes.",

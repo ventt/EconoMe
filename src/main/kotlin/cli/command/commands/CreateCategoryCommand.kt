@@ -31,10 +31,8 @@ class CreateCategoryCommand(private val categoryRepository: CategoryRepository):
         }
 
     }
-    override fun printHelp(): Unit{
+    override fun printHelp(){
         Printer.printHelp("create category", "Creates a category.",
             "create category -n <name>","")
     }
-
-
 }

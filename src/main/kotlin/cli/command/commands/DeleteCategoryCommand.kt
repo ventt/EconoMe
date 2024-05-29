@@ -7,7 +7,7 @@ import common.Printer
 import transaction.repository.ExpenseRepository
 import transaction.repository.IncomeRepository
 
-class DeleteCategoryCommand(private val categoryRepository: CategoryRepository, private val expenseRepository: ExpenseRepository, private val incomeRepository: IncomeRepository): Command {
+class DeleteCategoryCommand(categoryRepository: CategoryRepository, expenseRepository: ExpenseRepository, incomeRepository: IncomeRepository): Command {
     private val categoryService = CategoryService(categoryRepository, expenseRepository, incomeRepository)
     override fun matches(input: String): Boolean {
         return input.startsWith("delete category")
@@ -36,7 +36,7 @@ class DeleteCategoryCommand(private val categoryRepository: CategoryRepository, 
         return true
     }
 
-    override fun printHelp(): Unit {
+    override fun printHelp(){
         Printer.printHelp("delete category", "Deletes a category.",
             "delete category -n <name>", "")
     }

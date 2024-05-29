@@ -10,14 +10,14 @@ import transaction.repository.ExpenseRepository
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-// create income -a 1000 -d "Salary" -c "Work payment" -t "2021-01-01:10-32"
+
 class AddExpenseCommand(private val expenseRepository: ExpenseRepository, private val categoryRepository: CategoryRepository): Command {
     override fun matches(input: String): Boolean {
         return input.startsWith("add expense")
     }
 
     override fun execute(input: String) {
-        val args = input.split(" ").drop(2) // remove "create expense"
+        val args = input.split(" ").drop(2)
         val argsMap = ArgsParser.parseArgs(args)
 
         val amount = argsMap["-a"]?.toDoubleOrNull()
@@ -50,7 +50,7 @@ class AddExpenseCommand(private val expenseRepository: ExpenseRepository, privat
         }
     }
 
-    override fun printHelp(): Unit {
+    override fun printHelp(){
         Printer.printHelp("add expense", "Creates an expense transaction.",
             "add expense -a <amount> -d <description> -c <category> -t <date>",
             "-d <description> -c <category> -t <date>")

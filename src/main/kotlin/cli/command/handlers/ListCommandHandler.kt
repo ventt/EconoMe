@@ -1,6 +1,5 @@
 package cli.command.handlers
 
-import cli.command.BaseCommandHandler
 import cli.command.interfaces.ListCommand
 import common.Printer
 import common.interfaces.Listable
@@ -19,9 +18,11 @@ class ListCommandHandler(commands: List<ListCommand>) : BaseCommandHandler<ListC
         command.execute(input)
     }
 
-    override fun printHelp(): Unit {
+    override fun printHelp(){
         Printer.printSuccess("List mode Commands:")
         super.printHelp()
+        Printer.printSuccess("=====================================")
+        Printer.printSortOptions()
         Printer.printSuccess("=====================================")
     }
 }

@@ -1,6 +1,6 @@
 package common.interfaces
 
 interface Listable {
-    var id: String;
+    var id: String
     fun print(): String
 }

@@ -1,14 +1,18 @@
 package cli
 
 
-import cli.command.handlers.CommandHandler
 import cli.command.commands.*
+import cli.command.handlers.CommandHandler
 import cli.command.interfaces.Command
 
 class CLIHandler(private val repositoryManager: RepositoryManager) {
     private val commands: List<Command> = listOf(
         CreateCategoryCommand(repositoryManager.getCategoryRepository()),
-        DeleteCategoryCommand(repositoryManager.getCategoryRepository(), repositoryManager.getExpenseRepository(), repositoryManager.getIncomeRepository()),
+        DeleteCategoryCommand(
+            repositoryManager.getCategoryRepository(),
+            repositoryManager.getExpenseRepository(),
+            repositoryManager.getIncomeRepository()
+        ),
         AddIncomeCommand(repositoryManager.getIncomeRepository(), repositoryManager.getCategoryRepository()),
         AddExpenseCommand(repositoryManager.getExpenseRepository(), repositoryManager.getCategoryRepository()),
         ListExpensesCommand(repositoryManager), ListIncomeCommand(repositoryManager),

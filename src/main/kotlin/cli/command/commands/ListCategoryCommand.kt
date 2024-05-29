@@ -15,7 +15,7 @@ class ListCategoryCommand(private val repositoryManager: RepositoryManager): Com
         cliListHandler.open()
     }
 
-    override fun printHelp(): Unit {
+    override fun printHelp(){
         Printer.printHelp("list categories", "Lists all categories.",
             "list categories", "")
     }

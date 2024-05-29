@@ -10,7 +10,7 @@ data class Date(val year: Int, val month: Int, val day: Int, val hour: Int, val 
     override fun toString(): String {
         return "$year-$month-$day $hour:$minute"
     }
-    private fun toLocalDateTime(): LocalDateTime {
+    fun toLocalDateTime(): LocalDateTime {
         return LocalDateTime.of(year, month, day, hour, minute)
     }
     override fun compareTo(other: Date): Int {

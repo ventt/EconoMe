@@ -5,11 +5,19 @@ import cli.command.handlers.ListCommandHandler
 import cli.command.commands.listCommands.DeleteExpenseByIndexCommand
 import cli.command.commands.listCommands.DeleteIncomeByIndexCommand
 import cli.command.interfaces.ListCommand
+import common.Printer
+import common.SortOption
 import common.interfaces.Listable
 import transaction.models.Expense
+import transaction.models.Income
+import report.calculateSummary
+import java.time.LocalDateTime
 
 class CLIListHandler(private val repositoryManager: RepositoryManager, private var type : String) {
-    private val categoryService = CategoryService(repositoryManager.getCategoryRepository(), repositoryManager.getExpenseRepository(), repositoryManager.getIncomeRepository())
+    private var sortOption: SortOption = SortOption.DATE_DESC
+    private val categoryService = CategoryService(repositoryManager.getCategoryRepository(),
+        repositoryManager.getExpenseRepository(),
+        repositoryManager.getIncomeRepository())
     private fun setMap(){
         when {
             type == "expense" -> setExpenseList()
@@ -39,39 +47,83 @@ class CLIListHandler(private val repositoryManager: RepositoryManager, private v
             if (input == "exit") {
                 break
             }
-            listCommandHandler.handleInput(input, indexedList)
+            if(input.startsWith("sort")){
+                handleSortOptionInput(input.removePrefix("sort"))
+            }else{
+                listCommandHandler.handleInput(input, indexedList)
+            }
+
         }
     }
     private fun printList() {
         indexedList.forEach { (index, listable) ->
             println("$index. ${listable.print()}")
         }
+        Printer.printSummary(calculateSummary(indexedList.values.toList()))
     }
     private fun setExpenseList() {
-        val sortedExpenses = repositoryManager.getExpenseRepository().getAll()
-            .sortedWith(compareByDescending<Expense> { it.date }.thenByDescending { it.amount })
-        indexedList = listToMap(sortedExpenses)
+        indexedList = listToMap(sortList(repositoryManager.getExpenseRepository().getAll()))
     }
+
     private fun setIncomeList() {
-        indexedList = listToMap(repositoryManager.getIncomeRepository().getAll())
+        indexedList = listToMap(sortList(repositoryManager.getIncomeRepository().getAll()))
     }
+
     private fun setCategoryList() {
         indexedList = listToMap(repositoryManager.getCategoryRepository().getAll())
     }
     private fun setTransactionList() {
-        indexedList = listsToMap(listOf(repositoryManager.getIncomeRepository().getAll(), repositoryManager.getExpenseRepository().getAll()))
+        val allTransactions = repositoryManager.getIncomeRepository().getAll() + repositoryManager.getExpenseRepository().getAll()
+        indexedList = listToMap(sortList(allTransactions))
     }
+
     private fun getTransactionListByCategory(categoryName: String) {
-        indexedList = listToMap(categoryService.getTransactionsByCategory(categoryName))
+        val transactions = categoryService.getTransactionsByCategory(categoryName)
+        indexedList = listToMap(sortList(transactions))
     }
     private fun listToMap(list: List<Listable>): Map<Int, Listable> {
         return list.mapIndexed { index, listable -> index + 1 to listable }.toMap()
     }
-    private fun listsToMap(lists: List<List<Listable>>): Map<Int, Listable> {
-        return lists.flatten().mapIndexed { index, listable -> index + 1 to listable }.toMap()
+
+    private fun handleSortOptionInput(input: String) {
+        sortOption = when (input.trim().lowercase()) {
+            "date asc" -> SortOption.DATE_ASC
+            "date desc" -> SortOption.DATE_DESC
+            "amount asc" -> SortOption.AMOUNT_ASC
+            "amount desc" -> SortOption.AMOUNT_DESC
+            else -> SortOption.DATE_DESC
+        }
     }
-    private fun summaryOfTransactionsAmounts(transactions: List<Listable>): Double {
-        // TODO: Implement this function
-        return 0.0
+    private fun sortList(list: List<Listable>): List<Listable> {
+        return when (sortOption) {
+            SortOption.DATE_ASC -> list.sortedWith(compareBy {
+                when (it) {
+                    is Expense -> it.date.toLocalDateTime()
+                    is Income -> it.date.toLocalDateTime()
+                    else -> LocalDateTime.MIN
+                }
+            })
+            SortOption.DATE_DESC -> list.sortedWith(compareByDescending {
+                when (it) {
+                    is Expense -> it.date.toLocalDateTime()
+                    is Income -> it.date.toLocalDateTime()
+                    else -> LocalDateTime.MIN
+                }
+            })
+            SortOption.AMOUNT_ASC -> list.sortedWith(compareBy {
+                when (it) {
+                    is Expense -> it.amount
+                    is Income -> it.amount
+                    else -> 0.0
+                }
+            })
+            SortOption.AMOUNT_DESC -> list.sortedWith(compareByDescending {
+                when (it) {
+                    is Expense -> it.amount
+                    is Income -> it.amount
+                    else -> 0.0
+                }
+            })
+        }
     }
 }

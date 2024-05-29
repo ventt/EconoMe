@@ -36,7 +36,7 @@ class DeleteExpenseByIndexCommand(private val expenseRepository: ExpenseReposito
         } ?: Printer.printWarning("Expense not found")
     }
 
-    override fun printHelp(): Unit {
+    override fun printHelp(){
         Printer.printHelp(
             "delete expense",
             "Deletes an expense transaction.",
