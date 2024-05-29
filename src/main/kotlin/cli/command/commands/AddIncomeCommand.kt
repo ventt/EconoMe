@@ -52,12 +52,9 @@ class AddIncomeCommand(private val incomeRepository: IncomeRepository, private v
         }
     }
 
-    override fun printHelp(): String {
-        return """
-            Command: add income
-            Description: Adds a new income transaction with the specified amount. Optional parameters: description, category and date. Needs to create a category to assign the transaction!
-            Usage: add income -a <amount>
-            Optional: -d <description> -c <category> -t <date>
-        """.trimIndent()
+    override fun printHelp(): Unit {
+        Printer.printHelp("add income", "Creates an income transaction.",
+            "add income -a <amount>",
+            "-d <description> -c <category> -t <date>")
     }
 }

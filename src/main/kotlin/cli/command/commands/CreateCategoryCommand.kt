@@ -31,10 +31,10 @@ class CreateCategoryCommand(private val categoryRepository: CategoryRepository):
         }
 
     }
-    override fun printHelp(): String = """
-        Command: create category
-        Description: Creates a new category with the specified name.
-        Usage: create category -n <name>
-    """.trimIndent()
+    override fun printHelp(): Unit{
+        Printer.printHelp("create category", "Creates a category.",
+            "create category -n <name>","")
+    }
+
 
 }

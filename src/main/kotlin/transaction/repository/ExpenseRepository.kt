@@ -1,13 +1,13 @@
 package transaction.repository
 
-import common.UniqueIdGenerator
 import common.interfaces.Repository
 import transaction.models.Expense
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.builtins.ListSerializer
+import transaction.models.FinancialTransaction
 import java.io.File
 
-class ExpenseRepository: Repository<Expense> {
+class ExpenseRepository: FinancialTransactionRepository {
     private val expenses = mutableListOf<Expense>()
     private val filePath = "expenses.json"
     private val jsonFormat = Json { prettyPrint = true }
@@ -43,18 +43,18 @@ class ExpenseRepository: Repository<Expense> {
         return isRemoved
     }
 
-    override fun update(item: Expense): Expense {
+    override fun update(item: FinancialTransaction): FinancialTransaction {
         return expenses.find { it.id == item.id }?.let {
             expenses.remove(it)
-            expenses.add(item)
+            expenses.add(item as Expense)
             saveToJson()
             item
         } ?: throw IllegalArgumentException("Expense with id: ${item.id} does not exist")
     }
 
-    override fun create(item: Expense): Expense {
+    override fun create(item: FinancialTransaction): FinancialTransaction {
         return item.also {
-            expenses.add(it)
+            expenses.add(it as Expense)
             saveToJson()
         }
     }

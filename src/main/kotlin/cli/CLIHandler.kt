@@ -2,10 +2,7 @@ package cli
 
 
 import cli.command.CommandHandler
-import cli.command.commands.CreateCategoryCommand
-import cli.command.commands.AddExpenseCommand
-import cli.command.commands.AddIncomeCommand
-import cli.command.commands.DeleteCategoryCommand
+import cli.command.commands.*
 import cli.command.interfaces.Command
 
 class CLIHandler(private val repositoryManager: RepositoryManager) {
@@ -13,7 +10,10 @@ class CLIHandler(private val repositoryManager: RepositoryManager) {
         CreateCategoryCommand(repositoryManager.getCategoryRepository()),
         DeleteCategoryCommand(repositoryManager.getCategoryRepository(), repositoryManager.getExpenseRepository(), repositoryManager.getIncomeRepository()),
         AddIncomeCommand(repositoryManager.getIncomeRepository(), repositoryManager.getCategoryRepository()),
-        AddExpenseCommand(repositoryManager.getExpenseRepository(), repositoryManager.getCategoryRepository())
+        AddExpenseCommand(repositoryManager.getExpenseRepository(), repositoryManager.getCategoryRepository()),
+        ListExpensesCommand(repositoryManager), ListIncomeCommand(repositoryManager),
+        ListCategoryCommand(repositoryManager), ListTransactionCommand(repositoryManager),
+        ListTransactionsByCategoryCommand(repositoryManager)
     )
     private val commandHandler = CommandHandler(commands)
     fun open() {

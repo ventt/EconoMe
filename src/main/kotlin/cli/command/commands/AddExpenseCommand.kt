@@ -52,12 +52,9 @@ class AddExpenseCommand(private val expenseRepository: ExpenseRepository, privat
         }
     }
 
-    override fun printHelp(): String {
-        return """
-            Command: add expense
-            Description: Adds a new expense transaction with the specified amount. Optional parameters: description, category and date. Needs to create a category to assign the transaction!
-            Usage: add income -a <amount>
-            Optional: -d <description> -c <category> -t <date>
-        """.trimIndent()
+    override fun printHelp(): Unit {
+        Printer.printHelp("add expense", "Creates an expense transaction.",
+            "add expense -a <amount> -d <description> -c <category> -t <date>",
+            "-d <description> -c <category> -t <date>")
     }
 }

@@ -3,7 +3,6 @@ package transaction.repository
 
 import common.UniqueIdGenerator
 import common.interfaces.Repository
-import transaction.models.Expense
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.builtins.ListSerializer
 import transaction.models.Income

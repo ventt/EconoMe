@@ -5,21 +5,21 @@ import cli.RepositoryManager
 import cli.command.interfaces.Command
 import common.Printer
 
-class ListExpensesCommand(private val repositoryManager: RepositoryManager) : Command{
+class ListTransactionCommand(private val repositoryManager: RepositoryManager) : Command {
     override fun matches(input: String): Boolean {
-        return input.startsWith("list expenses")
+        return input.startsWith("list transactions") && !input.contains("-c")
     }
 
     override fun execute(input: String) {
-        val cliListHandler = CLIListHandler(repositoryManager, "expense")
+        val cliListHandler = CLIListHandler(repositoryManager, "transaction")
         cliListHandler.open()
     }
 
     override fun printHelp(): Unit {
         Printer.printHelp(
-            "list expenses",
-            "Lists all expenses.",
-            "list expenses",
+            "list transactions",
+            "Lists all transactions.",
+            "list transactions",
             ""
         )
     }

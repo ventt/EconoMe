@@ -1,6 +1,7 @@
 package transaction.models
 
 import category.models.Category
+import common.Color
 import common.Date
 import common.DateUtils
 import common.UniqueIdGenerator
@@ -12,9 +13,13 @@ data class Income(
     var date: Date = DateUtils.now(),
     override var category: Category? = null,
     var description: String = "",
-    var id: String = UniqueIdGenerator.generate()
+    override var id: String = UniqueIdGenerator.generate()
     ): FinancialTransaction {
     override fun type(): String {
         return "Income"
+    }
+
+    override fun print(): String {
+        return "${Color.INCOME.code}Income${Color.RESET.code}: $amount, $date, $category, $description"
     }
 }
