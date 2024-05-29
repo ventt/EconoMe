@@ -15,8 +15,8 @@ object Printer {
         println("${Color.YELLOW.code}$message${Color.RESET.code}")
     }
     fun printHelp(command: String, description: String, usage: String, optional: String) {
-        println("${Color.BLUE.code}Command:${Color.RESET.code} $command")
         println("${Color.CYAN.code}Description:${Color.RESET.code} $description")
+        println("${Color.BLUE.code}Command:${Color.RESET.code} $command")
         println("${Color.MAGENTA.code}Usage:${Color.RESET.code} $usage")
         if (optional.isNotEmpty()) {
             println("${Color.YELLOW.code}Optional:${Color.RESET.code} $optional")
