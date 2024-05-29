@@ -11,7 +11,7 @@ class CreateCategoryCommand(private val categoryRepository: CategoryRepository):
     }
     private fun validate(input: String): Boolean {
         if (!input.contains("-n") || input.substringAfter("-n").trim().isEmpty()) {
-            Printer.printError("Error: Missing or incorrect '-n' flag usage. Correct format: create category -n \"Category Name\"")
+            Printer.printError("Missing or incorrect '-n' flag usage. Correct format: create category -n \"Category Name\"")
             return false
         }
         return true
@@ -22,7 +22,7 @@ class CreateCategoryCommand(private val categoryRepository: CategoryRepository):
 
         val name = input.substringAfter("-n").trim()
 
-        println("Creating category with name: $name")
+        Printer.printCreatingEntity("Creating category with name: $name")
         try {
             categoryRepository.create(Category(name))
             Printer.printSuccess("Category created successfully")

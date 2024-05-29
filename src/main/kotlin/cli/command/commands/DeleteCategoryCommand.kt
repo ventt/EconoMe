@@ -16,7 +16,7 @@ class DeleteCategoryCommand(private val categoryRepository: CategoryRepository, 
     override fun execute(input: String) {
         if(!validate(input)) return
         val name = input.substringAfter("-n").trim()
-        println("Deleting category with name: $name")
+        Printer.printDeletingEntity("Deleting category with name: $name")
         try {
             if(categoryService.deleteCategoryAndRemoveFromTransactions(name)) {
                 Printer.printSuccess("Category deleted successfully")
@@ -30,7 +30,7 @@ class DeleteCategoryCommand(private val categoryRepository: CategoryRepository, 
 
     private fun validate(input: String): Boolean {
         if(!input.contains("-n") || input.substringAfter("-n").trim().isEmpty()) {
-            Printer.printError("Error: Missing or incorrect '-n' flag usage. Correct format: delete category -n \"Category Name\"")
+            Printer.printError("Missing or incorrect '-n' flag usage. Correct format: delete category -n \"Category Name\"")
             return false
         }
         return true

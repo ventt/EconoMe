@@ -22,7 +22,7 @@ class AddIncomeCommand(private val incomeRepository: IncomeRepository, private v
 
         val amount = argsMap["-a"]?.toDoubleOrNull()
         if (amount == null) {
-            Printer.printError("Error: -a (amount) argument is missing or not a number.")
+            Printer.printError("-a (amount) argument is missing or not a number.")
             return
         }
 
@@ -33,17 +33,15 @@ class AddIncomeCommand(private val incomeRepository: IncomeRepository, private v
         val dateString = argsMap["-t"]
 
         if (dateString != null && !DateUtils.isValidDate(dateString)) {
-            Printer.printError("Error: -t (date) is not in the correct format 'yyyy-MM-dd:HH-mm'.")
+            Printer.printError("-t (date) is not in the correct format 'yyyy-MM-dd:HH-mm'.")
             return
         }
         var dateTime = LocalDateTime.now()
-        println(dateTime)
         if(dateString != null){
             dateTime = LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd:HH-mm"))
         }
-        println(dateTime)
 
-        println("Creating income transaction: amount = $amount, description = $description, category = $category, date = ${dateTime}")
+        Printer.printCreatingEntity("Adding income transaction: amount = $amount, description = $description, category = $category, date = ${dateTime}")
         try {
             incomeRepository.create(Income(amount, DateUtils.fromLocalDateTime(dateTime), category, description))
             Printer.printSuccess("Income transaction created successfully")
