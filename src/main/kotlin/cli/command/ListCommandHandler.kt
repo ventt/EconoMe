@@ -1,19 +1,21 @@
 package cli.command
 
-import cli.command.interfaces.Command
+import cli.command.interfaces.ListCommand
 import common.Printer
+import common.interfaces.Listable
 
-class CommandHandler(commands: List<Command>) {
+class ListCommandHandler(commands: List<ListCommand>) {
     private val commands = commands.toList()
 
-    fun handleInput(input: String) {
+    fun handleInput(input: String, map: Map<Int, Listable>) {
         if (input == "help") {
+            println("List mode Commands:")
+            println("exit - Exit list mode")
             commands.forEach {
                 Printer.printWarning("=====================================")
-                it.printHelp()
+                println(it.printHelp())
             }
-            Printer.printWarning("=====================================")
-            Printer.printSuccess("exit - Exit the program")
+            Printer.printSuccess("=====================================")
             return
         }
         if (input.startsWith("help")) {
@@ -27,6 +29,7 @@ class CommandHandler(commands: List<Command>) {
 
         } else {
             val command = commands.find { it.matches(input) }
+            command?.setMap(map)
             command?.execute(input) ?: Printer.printError("Invalid command")
         }
     }

@@ -36,10 +36,9 @@ class DeleteCategoryCommand(private val categoryRepository: CategoryRepository, 
         return true
     }
 
-    override fun printHelp(): String = """
-        Command: delete category
-        Description: Deletes a category with the specified name.
-        Usage: delete category -n <name>
-    """.trimIndent()
+    override fun printHelp(): Unit {
+        Printer.printHelp("delete category", "Deletes a category.",
+            "delete category -n <name>", "")
+    }
 
 }
