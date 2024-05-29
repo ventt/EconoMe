@@ -1,4 +1,4 @@
-package cli.command
+package cli.command.handlers
 
 import cli.command.interfaces.Command
 import common.Printer

@@ -1,6 +1,5 @@
 package cli.command.handlers
 
-import cli.command.BaseCommandHandler
 import cli.command.interfaces.Command
 
 class CommandHandler(commands: List<Command>) : BaseCommandHandler<Command>(commands) {

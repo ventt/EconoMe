@@ -1,5 +1,7 @@
 package common
 
+import report.models.Summary
+
 object Printer {
     fun printError(message: String) {
         println("${Color.RED.code}Error: $message${Color.RESET.code}")
@@ -25,5 +27,20 @@ object Printer {
     }
     fun printDeletingEntity(message: String) {
         println("${Color.MAGENTA.code}$message${Color.RESET.code}")
+    }
+    fun printSortOptions() {
+        println("${Color.MAGENTA.code}Sort options:${Color.RESET.code}")
+        println("${Color.CYAN.code}Date ascending:${Color.BLUE.code} sort date asc${Color.RESET.code}")
+        println("${Color.CYAN.code}Date descending:${Color.BLUE.code} sort date desc${Color.RESET.code}")
+        println("${Color.CYAN.code}Amount ascending:${Color.BLUE.code} sort amount asc${Color.RESET.code}")
+        println("${Color.CYAN.code}Amount descending:${Color.BLUE.code} sort amount desc${Color.RESET.code}")
+    }
+    fun printSummary(summary: Summary){
+        if(summary.netAmount > 0){
+            println("${Color.GREEN.code}Total amount: ${summary.netAmount}${Color.RESET.code}")
+        }else{
+            println("${Color.RED.code}Total amount: ${summary.netAmount}${Color.RESET.code}")
+        }
+        println("${Color.CYAN.code}Total transactions: ${summary.totalTransactions}${Color.RESET.code}")
     }
 }

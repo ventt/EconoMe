@@ -1,10 +1,9 @@
 package category.repository
 
 import category.models.Category
-import common.UniqueIdGenerator
 import common.interfaces.Repository
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.json.Json
 import java.io.File
 
 class CategoryRepository : Repository<Category> {

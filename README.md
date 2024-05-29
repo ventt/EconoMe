@@ -1,1 +1,2 @@
 # EconoMe
+EconoMe is a personal finance management application that allows users to track their income, expenses, and investments. The application provides users with insights into their spending habits and helps them make informed financial decisions. EconoMe is designed to be user-friendly and intuitive, making it easy for users to manage their finances effectively.
